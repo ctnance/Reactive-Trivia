@@ -1,8 +1,10 @@
 :root {
   --medium-blue: hsl(200, 100%, 46%);
   --medium-dark-blue: hsl(200, 100%, 38%);
-  --dark-blue: hsl(200, 100%, 20%);
-  --white: #fff;
+  --dark-blue: hsl(200, 100%, 10%);
+  --red: hsl(0, 100%, 50%);
+  --white: hsl(0, 0%, 100%);
+  --transparent: hsla(0, 0%, 0%, 0.5);
 }
 
 html {
@@ -48,7 +50,7 @@ main {
 }
 
 .start-container {
-  color: #000;
+  color: var(--dark-blue);
   background-color: var(--white);
   border-radius: 1em;
   box-shadow: 8px 8px 24px hsla(0, 0%, 0%, 0.5);
@@ -60,17 +62,117 @@ main {
   padding: 3em 4em;
 }
 
-.start-container button {
+.modal-wrapper {
+  background-color: var(--transparent);
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 100;
+}
+
+.modal {
+  background-color: white;
+  position: relative;
+  top: 10%;
+  left: 50%;
+  z-index: 200;
+  transform: translateX(-50%);
+  border-radius: 0.5em;
+  padding: 2em;
+  width: 80%;
+}
+
+.modal-title {
+  font-size: 2rem;
+  margin: 0;
+}
+
+.modal-close-btn {
+  position: absolute;
+  top: 0;
+  right: 0;
+  color: var(--red);
+  background-color: transparent;
+  font-size: 2rem;
+  font-weight: bold;
+  width: auto;
+  padding: 0.12em 0.5em;
+}
+
+.modal-close-btn:active {
+  box-shadow: none;
+  margin-top: 1px;
+}
+
+.start-container > button {
   min-width: 200px;
   font-size: 1rem;
   margin-bottom: 0.75em;
 }
 
 .title {
-  font-size: 2.25rem;
+  user-select: none;
+  font-size: 2.5rem;
   margin: 0;
 }
 
 .description {
   margin-bottom: 2em;
+}
+
+.trivia-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+.trivia-card {
+  background-color: var(--white);
+  border-radius: 1em;
+  padding: 2em 3em;
+}
+
+.question-row {
+  display: flex;
+  align-items: center;
+}
+
+.question-number,
+.question-text {
+  margin: 0 0 1em;
+}
+
+.question-number {
+  margin-right: 0.5em;
+}
+
+.question-text {
+  font-size: 1.25rem;
+}
+
+.answer-choices {
+  display: flex;
+  flex-direction: column;
+}
+
+.answer-choice input {
+  margin-right: 6px;
+  margin-bottom: 0.5em;
+}
+
+.question-row {
+  display: flex;
+  align-content: center;
+}
+
+label {
+  user-select: none;
+}
+
+.submit-answer-btn {
+  margin-top: 1em;
 }
