@@ -1,3 +1,9 @@
+import StartContainer from "./components/StartContainer";
+
 export default function App() {
-  return <></>;
+  return (
+    <main>
+      <StartContainer />
+    </main>
+  );
 }
