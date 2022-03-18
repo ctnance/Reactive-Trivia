@@ -32,6 +32,7 @@ button {
   color: var(--white);
   background-color: var(--medium-dark-blue);
   font-family: inherit;
+  font-weight: bold;
   border: none;
   border-radius: 0.5em;
   padding: 0.75em 1em;
@@ -124,8 +125,10 @@ main {
 
 .trivia-container {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+  gap: 1em;
   width: 100%;
   height: 100%;
 }
@@ -133,6 +136,7 @@ main {
 .trivia-card {
   background-color: var(--white);
   border-radius: 1em;
+  box-shadow: 4px 4px 16px hsla(0, 0%, 0%, 0.5);
   padding: 2em 3em;
 }
 
@@ -156,12 +160,9 @@ main {
 
 .answer-choices {
   display: flex;
-  flex-direction: column;
-}
-
-.answer-choice input {
-  margin-right: 6px;
-  margin-bottom: 0.5em;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 1em;
 }
 
 .question-row {
@@ -169,10 +170,37 @@ main {
   align-content: center;
 }
 
-label {
+.answer-btn {
   user-select: none;
+  border: 1px solid var(--dark-blue);
+  color: var(--dark-blue);
+  background-color: transparent;
+  text-align: center;
+  font-weight: bold;
+  width: 40%;
+  border-radius: 0.5em;
+  padding: 0.5em;
 }
 
-.submit-answer-btn {
-  margin-top: 1em;
+.selected {
+  color: var(--white);
+  background-color: var(--medium-blue);
+}
+
+.correct {
+  background-color: green;
+}
+
+.incorrect {
+  background-color: red;
+}
+
+.btn-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.submit-answer-btn,
+.next-question-btn {
+  margin-top: 2em;
 }
