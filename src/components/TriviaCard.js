@@ -101,6 +101,10 @@ export default function TriviaCard(props) {
         <h3 className="question-number">Q{props.questionNum}:</h3>
         <p className="question-text">{props.cardData.question}</p>
       </div>
+      <div className="question-data">
+        <p className="question-category">Category: {props.cardData.category}</p>
+        <p className="question-difficulty">Difficulty: {props.cardData.difficulty}</p>
+      </div>
       <div className="answer-choices">{btns}</div>
       {cardData.answerSubmitted ? (
         <NextTriviaButton getNextTriviaCard={props.getNextTriviaCard} />

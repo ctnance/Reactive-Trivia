@@ -38,7 +38,7 @@ button {
   padding: 0.75em 1em;
 }
 
-button:active {
+button:active:hover {
   box-shadow: inset 0.25em 0.25em 0.25em hsla(0, 0%, 0%, 0.5);
 }
 
@@ -113,8 +113,12 @@ main {
   margin-bottom: 0.75em;
 }
 
-.title {
+.title,
+.description {
   user-select: none;
+}
+
+.title {
   font-size: 2.5rem;
   margin: 0;
 }
@@ -133,6 +137,36 @@ main {
   height: 100%;
 }
 
+.trivia-header {
+  position: absolute;
+  top: 0;
+  background-color: var(--white);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 4px 4px 16px hsla(0, 0%, 0%, 0.5);
+  width: 100%;
+  padding: 1.25em 2em;
+}
+
+.trivia-timer {
+  display: flex;
+  align-items: center;
+}
+
+.trivia-timer h2 {
+  margin-right: 8px;
+}
+
+.trivia-timer span {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.trivia-header * {
+  margin: 0;
+}
+
 .trivia-card {
   background-color: var(--white);
   border-radius: 1em;
@@ -145,12 +179,24 @@ main {
   align-items: center;
 }
 
+.question-data {
+  display: flex;
+  justify-content: space-between;
+}
+
+.question-data * {
+  font-size: 0.85rem;
+  text-transform: capitalize;
+  margin: 0.75em 0 2em;
+}
+
 .question-number,
 .question-text {
-  margin: 0 0 1em;
+  margin: 0;
 }
 
 .question-number {
+  align-self: flex-start;
   margin-right: 0.5em;
 }
 
@@ -203,4 +249,10 @@ main {
 .submit-answer-btn,
 .next-question-btn {
   margin-top: 2em;
+}
+
+@media only screen and (min-width: 1000px) {
+  .trivia-card {
+    max-width: 70%;
+  }
 }

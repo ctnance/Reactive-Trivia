@@ -6,14 +6,16 @@ import TriviaContainer from "./components/TriviaContainer";
 // ^ URL for trivia categories
 export default function App() {
   const [triviaActive, setTriviaActive] = React.useState(false);
-  const [triviaConfigData, setTriviaConfigData] = React.useState({
+  const [triviaData, setTriviaData] = React.useState([]);
+  let triviaConfigData = {
+    secondsPerQuestion: 90,
     numOfQuestions: 3,
     category: 0,
     difficulty: "easy",
-    multipleChoice: false,
-  });
-  const [triviaData, setTriviaData] = React.useState([]);
+    multipleChoice: true,
+  };
 
+  // Run effect when triviaActive is toggled; fetch data if true/active
   React.useEffect(() => {
     if (triviaActive) {
       async function getTriviaData() {
@@ -22,16 +24,33 @@ export default function App() {
             triviaConfigData.numOfQuestions
           }&category=${triviaConfigData.category}&difficulty=${
             triviaConfigData.difficulty
-          }&type=${triviaConfigData.multipleChoice ? "multiple" : "boolean"}`
+          }&type=${
+            triviaConfigData.multipleChoice ? "multiple" : "boolean"
+          }&encode=base64`
         );
         let data = await response.json();
         if (data.response_code === 0) {
-          console.log(data.results);
-          setTriviaData(data.results);
+          const triviaData = data.results.map((triviaItem) => {
+            return {
+              category: window
+                .atob(triviaItem.category)
+                .replace(/Entertainment: |Science: /, ""),
+              correct_answer: window.atob(triviaItem.correct_answer),
+              difficulty: window.atob(triviaItem.difficulty),
+              incorrect_answers: triviaItem.incorrect_answers.map((answer) =>
+                window.atob(answer)
+              ),
+              question: window.atob(triviaItem.question),
+              type: window.atob(triviaItem.type),
+            };
+          });
+          // setTriviaData(data.results); <- original base64 encoded data
+          console.log(triviaData);
+          setTriviaData(triviaData);
         }
       }
       // getTriviaData();
-      // TEST DATA BELOW, ACTUAL API CALL FOR DATA COMMENTED OUT ON LINE ABOVE
+      // TEST DATA BELOW, ACTUAL API CALL FOR DATA ON LINE ABOVE
       setTriviaData([
         {
           question: "TEST QUESTION: Which game?",
@@ -42,7 +61,7 @@ export default function App() {
           difficulty: "easy",
         },
         {
-          question: "TEST QUESTION: true or false?",
+          question: "TEST QUESTION: True or false?",
           correct_answer: "False",
           incorrect_answers: ["True"],
           category: "General Knowledge",
@@ -70,12 +89,21 @@ export default function App() {
     setTriviaActive(true);
   }
 
+  function endTrivia() {
+    setTriviaActive(false);
+    setTriviaData([]);
+  }
+
   return (
     <main>
-      {!triviaActive && !triviaData.length ? (
+      {!triviaActive ? (
         <StartContainer startTrivia={startTrivia} />
       ) : (
-        <TriviaContainer triviaData={triviaData} />
+        <TriviaContainer
+          triviaData={triviaData}
+          exitTrivia={endTrivia}
+          secondsPerQuestion={triviaConfigData.secondsPerQuestion}
+        />
       )}
     </main>
   );

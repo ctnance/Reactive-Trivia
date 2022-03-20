@@ -1,7 +1,7 @@
 import { nanoid } from "nanoid";
 import React from "react";
 import TriviaHeader from "./TriviaHeader";
-import TriviaCard from "./TriviaCard";
+import TriviaCard from "../TriviaCard";
 
 export default function TriviaContainer(props) {
   const [currentCardIndex, setCurrentCardIndex] = React.useState(0);
@@ -37,10 +37,7 @@ export default function TriviaContainer(props) {
 
   return (
     <div className="trivia-container">
-      <TriviaHeader
-        exitTrivia={props.exitTrivia}
-        secondsPerQuestion={props.secondsPerQuestion}
-      />
+      <TriviaHeader exitTrivia={props.exitTrivia} />
       {triviaCards[currentCardIndex]}
     </div>
   );
