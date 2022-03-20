@@ -1,6 +1,7 @@
 import React from "react";
+import testData from "./testData";
 import StartContainer from "./components/StartContainer";
-import TriviaContainer from "./components/TriviaContainer";
+import TriviaContainer from "./components/trivia components/TriviaContainer";
 
 // https://opentdb.com/api_category.php
 // ^ URL for trivia categories
@@ -49,34 +50,9 @@ export default function App() {
           setTriviaData(triviaData);
         }
       }
-      // getTriviaData();
-      // TEST DATA BELOW, ACTUAL API CALL FOR DATA ON LINE ABOVE
-      setTriviaData([
-        {
-          question: "TEST QUESTION: Which game?",
-          correct_answer: "Bingo",
-          incorrect_answers: ["Yatzee", "Sorry", "Trouble"],
-          category: "General Knowledge",
-          type: "multiple",
-          difficulty: "easy",
-        },
-        {
-          question: "TEST QUESTION: True or false?",
-          correct_answer: "False",
-          incorrect_answers: ["True"],
-          category: "General Knowledge",
-          type: "boolean",
-          difficulty: "easy",
-        },
-        {
-          question: "TEST QUESTION: Which number?",
-          correct_answer: "7",
-          incorrect_answers: ["6", "8", "9"],
-          category: "General Knowledge",
-          type: "multiple",
-          difficulty: "hard",
-        },
-      ]);
+      getTriviaData();
+      // GENERATE TEST DATA BELOW, ACTUAL API CALL FOR DATA ON LINE ABOVE
+      // setTriviaData(testData);
     }
   }, [triviaActive]);
 

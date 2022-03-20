@@ -1,8 +1,8 @@
 import { nanoid } from "nanoid";
 import React from "react";
-import AnswerButton from "./buttons/AnswerButton";
-import SubmitAnswerButton from "./buttons/SubmitAnswerButton";
-import NextTriviaButton from "./buttons/NextQuestionButton";
+import AnswerButton from "../buttons/AnswerButton";
+import SubmitAnswerButton from "../buttons/SubmitAnswerButton";
+import NextTriviaButton from "../buttons/NextQuestionButton";
 
 export default function TriviaCard(props) {
   let [cardData, setCardData] = React.useState({
