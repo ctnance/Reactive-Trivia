@@ -9,6 +9,11 @@ export default function TriviaContainer(props) {
     score: 0,
     allQuestionsAnswered: false,
     triviaCards: [],
+    timerData: {
+      timerActive: false,
+      timerEnded: false,
+      timerShouldReset: false,
+    },
   });
   const [currentCardIndex, setCurrentCardIndex] = React.useState(0);
 
@@ -22,10 +27,57 @@ export default function TriviaContainer(props) {
     let obj = {
       ...triviaSessionData,
       triviaCards: generateTriviaCards(),
+      timerData: {
+        ...triviaSessionData.timerData,
+        timerActive: true,
+      },
     };
     return obj;
   }
 
+  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  // TIMER FUNCTIONS
+  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  function toggleTimerActive() {
+    setTriviaSessionData((prevData) => {
+      return {
+        ...prevData,
+        timerData: {
+          ...prevData.timerData,
+          timerActive: !prevData.timerData.timerActive,
+        },
+      };
+    });
+  }
+
+  function timerEnded() {
+    setTriviaSessionData((prevData) => {
+      return {
+        ...prevData,
+        timerData: {
+          ...prevData.timerData,
+          timerEnded: true,
+          timerActive: false,
+        },
+      };
+    });
+  }
+
+  function toggleTimerReset() {
+    setTriviaSessionData((prevData) => {
+      return {
+        ...prevData,
+        timerData: {
+          ...prevData.timerData,
+          timerShouldReset: !prevData.timerData.timerShouldReset,
+        },
+      };
+    });
+  }
+
+  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  // TRIVIA CARD FUNCTIONS
+  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   function generateTriviaCards() {
     let cards = [];
     props.triviaData.forEach((triviaItem, index) => {
@@ -42,13 +94,15 @@ export default function TriviaContainer(props) {
       triviaData: triviaItem,
       questionNum: index + 1,
       getNextTriviaCard: getNextTriviaCard,
-      answerSubmitted: false,
       isLastCard: isLastCard,
     };
   }
 
   function submitAnswer(selectedAnswer) {
-    console.log("Checking answer: " + selectedAnswer);
+    // Toggle timer off if active
+    if (triviaSessionData.timerData.timerActive) {
+      toggleTimerActive();
+    }
     // Handle case if selected answer is correct
     if (props.triviaData[currentCardIndex].correct_answer === selectedAnswer) {
       setTriviaSessionData((prevData) => {
@@ -57,8 +111,9 @@ export default function TriviaContainer(props) {
           score: prevData.score + props.pointsPerCorrectAnswer,
         };
       });
+      // Handle case if selected answer is incorrect
     } else {
-      console.log("Incorrect");
+      console.log("Incorrect answer");
     }
   }
 
@@ -77,6 +132,8 @@ export default function TriviaContainer(props) {
         return 0;
       }
     });
+    toggleTimerReset();
+    toggleTimerActive();
   }
 
   let triviaCards = triviaSessionData.triviaCards.map((triviaCard) => {
@@ -87,8 +144,8 @@ export default function TriviaContainer(props) {
         triviaData={triviaCard.triviaData}
         questionNum={triviaCard.questionNum}
         getNextTriviaCard={getNextTriviaCard}
-        answerSubmitted={triviaCard.answerSubmitted}
         submitAnswer={submitAnswer}
+        timeUp={triviaSessionData.timerData.timerEnded}
         isLastCard={triviaCard.isLastCard}
       />
     );
@@ -106,6 +163,10 @@ export default function TriviaContainer(props) {
           <TriviaHeader
             displayTimer={true}
             displayScore={true}
+            timerActive={triviaSessionData.timerData.timerActive}
+            timerShouldReset={triviaSessionData.timerData.timerShouldReset}
+            toggleTimerReset={toggleTimerReset}
+            timerEnded={timerEnded}
             exitTrivia={props.exitTrivia}
             secondsPerQuestion={props.secondsPerQuestion}
             score={triviaSessionData.score}

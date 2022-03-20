@@ -12,9 +12,10 @@ export default function TriviaCard(props) {
   let [answerBtns, setAnswerBtns] = React.useState(createButtons());
 
   React.useEffect(() => {
-    console.log("ANSWER SUBMITTED");
-  }, [props.triviaData.answerSubmitted]);
-
+    if (props.timeUp) {
+      handleSubmit();
+    }
+  }, [props.timeUp]);
   function createButtons() {
     let buttons = [];
     let answers = shuffleAnswers([
@@ -57,7 +58,6 @@ export default function TriviaCard(props) {
   }
 
   function handleSubmit() {
-    let selectedAnswer = "";
     // Set answer submitted to true
     setCardData((prevData) => {
       return {
@@ -65,16 +65,13 @@ export default function TriviaCard(props) {
         answerSubmitted: true,
       };
     });
+
     // Send selected answer to TriviaContainer's submitAnswer function
     props.submitAnswer(cardData.selectedAnswer);
+
     // Set answer button styles to display correct feedback
     setAnswerBtns((prevBtns) => {
-      console.log("SEARCHING THROUGH ANSWER BUTTONS");
       return prevBtns.map((prevBtn) => {
-        if (prevBtn.isSelected) {
-          console.log("SELECTED ANSWER = " + prevBtn.answerText);
-          selectedAnswer = prevBtn.answerText;
-        }
         let result = prevBtn.answerText === props.triviaData.correct_answer;
         if (result) {
           return {

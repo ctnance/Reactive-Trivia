@@ -10,7 +10,7 @@ export default function App() {
   const [triviaData, setTriviaData] = React.useState([]);
   let triviaConfigData = {
     pointsPerCorrectAnswer: 100,
-    secondsPerQuestion: 90,
+    secondsPerQuestion: 10,
     numOfQuestions: 3,
     category: 0,
     difficulty: "easy",

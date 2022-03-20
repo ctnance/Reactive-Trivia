@@ -163,6 +163,10 @@ main {
   margin: 0;
 }
 
+.trivia-header .score-tracker {
+  width: 100px;
+}
+
 .trivia-card {
   background-color: var(--white);
   border-radius: 1em;
@@ -219,7 +223,7 @@ main {
   background-color: transparent;
   text-align: center;
   font-weight: bold;
-  width: 40%;
+  width: 45%;
   border-radius: 0.5em;
   padding: 0.5em;
 }
