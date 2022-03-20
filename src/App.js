@@ -9,6 +9,7 @@ export default function App() {
   const [triviaActive, setTriviaActive] = React.useState(false);
   const [triviaData, setTriviaData] = React.useState([]);
   let triviaConfigData = {
+    pointsPerCorrectAnswer: 100,
     secondsPerQuestion: 90,
     numOfQuestions: 3,
     category: 0,
@@ -79,6 +80,7 @@ export default function App() {
           triviaData={triviaData}
           exitTrivia={endTrivia}
           secondsPerQuestion={triviaConfigData.secondsPerQuestion}
+          pointsPerCorrectAnswer={triviaConfigData.pointsPerCorrectAnswer}
         />
       )}
     </main>

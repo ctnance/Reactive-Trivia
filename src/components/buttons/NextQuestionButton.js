@@ -8,7 +8,7 @@ export default function NextQuestionButton(props) {
         type="submit"
         onClick={props.getNextTriviaCard}
       >
-        Next Question
+        {props.text}
       </button>
     </div>
   );

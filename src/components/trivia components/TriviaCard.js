@@ -6,16 +6,20 @@ import NextTriviaButton from "../buttons/NextQuestionButton";
 
 export default function TriviaCard(props) {
   let [cardData, setCardData] = React.useState({
+    selectedAnswer: "",
     answerSubmitted: false,
   });
   let [answerBtns, setAnswerBtns] = React.useState(createButtons());
 
-  React.useEffect(() => {}, [answerBtns]);
+  React.useEffect(() => {
+    console.log("ANSWER SUBMITTED");
+  }, [props.triviaData.answerSubmitted]);
+
   function createButtons() {
     let buttons = [];
     let answers = shuffleAnswers([
-      props.cardData.correct_answer,
-      ...props.cardData.incorrect_answers,
+      props.triviaData.correct_answer,
+      ...props.triviaData.incorrect_answers,
     ]);
     for (let i = 0; i < answers.length; i++) {
       buttons.push(createButton(answers[i]));
@@ -41,24 +45,37 @@ export default function TriviaCard(props) {
 
     setAnswerBtns((prevBtns) => {
       return prevBtns.map((prevBtn) => {
-        return prevBtn.id === id
-          ? { ...prevBtn, isSelected: true }
-          : { ...prevBtn, isSelected: false };
+        let selected = prevBtn.id === id;
+        if (prevBtn.id === id) {
+          setCardData((prevData) => {
+            return { ...prevData, selectedAnswer: prevBtn.answerText };
+          });
+        }
+        return { ...prevBtn, isSelected: selected };
       });
     });
   }
 
-  function submitAnswer(e) {
-    e.preventDefault();
+  function handleSubmit() {
+    let selectedAnswer = "";
+    // Set answer submitted to true
     setCardData((prevData) => {
       return {
         ...prevData,
         answerSubmitted: true,
       };
     });
+    // Send selected answer to TriviaContainer's submitAnswer function
+    props.submitAnswer(cardData.selectedAnswer);
+    // Set answer button styles to display correct feedback
     setAnswerBtns((prevBtns) => {
+      console.log("SEARCHING THROUGH ANSWER BUTTONS");
       return prevBtns.map((prevBtn) => {
-        let result = prevBtn.answerText === props.cardData.correct_answer;
+        if (prevBtn.isSelected) {
+          console.log("SELECTED ANSWER = " + prevBtn.answerText);
+          selectedAnswer = prevBtn.answerText;
+        }
+        let result = prevBtn.answerText === props.triviaData.correct_answer;
         if (result) {
           return {
             ...prevBtn,
@@ -99,17 +116,22 @@ export default function TriviaCard(props) {
     <div className="trivia-card">
       <div className="question-row">
         <h3 className="question-number">Q{props.questionNum}:</h3>
-        <p className="question-text">{props.cardData.question}</p>
+        <p className="question-text">{props.triviaData.question}</p>
       </div>
       <div className="question-data">
-        <p className="question-category">Category: {props.cardData.category}</p>
-        <p className="question-difficulty">Difficulty: {props.cardData.difficulty}</p>
+        <p className="question-category">Category: {props.triviaData.category}</p>
+        <p className="question-difficulty">
+          Difficulty: {props.triviaData.difficulty}
+        </p>
       </div>
       <div className="answer-choices">{btns}</div>
       {cardData.answerSubmitted ? (
-        <NextTriviaButton getNextTriviaCard={props.getNextTriviaCard} />
+        <NextTriviaButton
+          text={props.isLastCard ? "Get Results" : "Next Question"}
+          getNextTriviaCard={props.getNextTriviaCard}
+        />
       ) : (
-        <SubmitAnswerButton submitAnswer={submitAnswer} />
+        <SubmitAnswerButton submitAnswer={handleSubmit} />
       )}
     </div>
   );

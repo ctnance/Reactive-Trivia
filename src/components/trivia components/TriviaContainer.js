@@ -29,22 +29,38 @@ export default function TriviaContainer(props) {
   function generateTriviaCards() {
     let cards = [];
     props.triviaData.forEach((triviaItem, index) => {
-      cards.push(createTriviaCard(triviaItem, index));
+      let isLastCard = index + 1 === props.triviaData.length;
+      cards.push(createTriviaCard(triviaItem, index, isLastCard));
     });
     return cards;
   }
 
-  function createTriviaCard(triviaItem, index) {
+  function createTriviaCard(triviaItem, index, isLastCard) {
     let id = nanoid();
     return {
       id: id,
-      cardData: triviaItem,
+      triviaData: triviaItem,
       questionNum: index + 1,
       getNextTriviaCard: getNextTriviaCard,
+      answerSubmitted: false,
+      isLastCard: isLastCard,
     };
   }
 
-  function submitAnswer() {}
+  function submitAnswer(selectedAnswer) {
+    console.log("Checking answer: " + selectedAnswer);
+    // Handle case if selected answer is correct
+    if (props.triviaData[currentCardIndex].correct_answer === selectedAnswer) {
+      setTriviaSessionData((prevData) => {
+        return {
+          ...prevData,
+          score: prevData.score + props.pointsPerCorrectAnswer,
+        };
+      });
+    } else {
+      console.log("Incorrect");
+    }
+  }
 
   function getNextTriviaCard() {
     setCurrentCardIndex((prevIndex) => {
@@ -68,9 +84,12 @@ export default function TriviaContainer(props) {
       <TriviaCard
         key={triviaCard.id}
         id={triviaCard.id}
-        cardData={triviaCard.cardData}
-        questionNum={triviaCard.index}
+        triviaData={triviaCard.triviaData}
+        questionNum={triviaCard.questionNum}
         getNextTriviaCard={getNextTriviaCard}
+        answerSubmitted={triviaCard.answerSubmitted}
+        submitAnswer={submitAnswer}
+        isLastCard={triviaCard.isLastCard}
       />
     );
   });
