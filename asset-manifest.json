@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/Reactive-Trivia/static/css/main.57756709.css",
-    "main.js": "/Reactive-Trivia/static/js/main.4e8ada7f.js",
+    "main.css": "/Reactive-Trivia/static/css/main.f24f7a84.css",
+    "main.js": "/Reactive-Trivia/static/js/main.a2e67886.js",
     "index.html": "/Reactive-Trivia/index.html",
-    "main.57756709.css.map": "/Reactive-Trivia/static/css/main.57756709.css.map",
-    "main.4e8ada7f.js.map": "/Reactive-Trivia/static/js/main.4e8ada7f.js.map"
+    "main.f24f7a84.css.map": "/Reactive-Trivia/static/css/main.f24f7a84.css.map",
+    "main.a2e67886.js.map": "/Reactive-Trivia/static/js/main.a2e67886.js.map"
   },
   "entrypoints": [
-    "static/css/main.57756709.css",
-    "static/js/main.4e8ada7f.js"
+    "static/css/main.f24f7a84.css",
+    "static/js/main.a2e67886.js"
   ]
 }
