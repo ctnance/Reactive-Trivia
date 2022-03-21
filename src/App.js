@@ -98,12 +98,26 @@ export default function App() {
 
   function handleFormChange(e) {
     const { type, name, value, checked } = e.target;
-    console.log(name);
-    console.log(value);
+    let finalValue = value;
+    if (type === "number") {
+      if (value < 1) {
+        finalValue = 1;
+      } else if (
+        name === "numOfQuestions" &&
+        value > triviaConstraints.maxQuestions
+      ) {
+        finalValue = triviaConstraints.maxQuestions;
+      } else if (
+        name === "secondsPerQuestion" &&
+        value > triviaConstraints.maxSecondsPerQuestion
+      ) {
+        finalValue = triviaConstraints.maxSecondsPerQuestion;
+      }
+    }
     setTriviaConfigData((prevData) => {
       return {
         ...prevData,
-        [name]: type === "checkbox" ? checked : value,
+        [name]: type === "checkbox" ? checked : finalValue,
       };
     });
   }
@@ -123,34 +137,29 @@ export default function App() {
   }
 
   return (
-    <main>
+    <>
       {!triviaActive ? (
-        <StartContainer
-          startTrivia={startTrivia}
-          secondsPerQuestion={triviaConfigData.secondsPerQuestion}
-          numOfQuestions={triviaConfigData.numOfQuestions}
-          categoryId={triviaConfigData.categoryId}
-          difficulty={triviaConfigData.difficulty}
-          quizType={triviaConfigData.quizType}
-          triviaConstraints={triviaConstraints}
-          handleFormChange={handleFormChange}
-          handleFormSubmit={handleFormSubmit}
-        />
+        <main>
+          <StartContainer
+            startTrivia={startTrivia}
+            secondsPerQuestion={triviaConfigData.secondsPerQuestion}
+            numOfQuestions={triviaConfigData.numOfQuestions}
+            categoryId={triviaConfigData.categoryId}
+            difficulty={triviaConfigData.difficulty}
+            quizType={triviaConfigData.quizType}
+            triviaConstraints={triviaConstraints}
+            handleFormChange={handleFormChange}
+            handleFormSubmit={handleFormSubmit}
+          />
+        </main>
       ) : (
         <TriviaContainer
           triviaData={triviaData}
           exitTrivia={endTrivia}
-          secondsPerQuestion={
-            triviaConfigData.secondsPerQuestion >
-            triviaConstraints.maxSecondsPerQuestion
-              ? triviaConstraints.maxSecondsPerQuestion
-              : triviaConfigData.secondsPerQuestion < 0
-              ? 1
-              : triviaConfigData.secondsPerQuestion
-          }
+          secondsPerQuestion={triviaConfigData.secondsPerQuestion}
           pointsPerCorrectAnswer={triviaConfigData.pointsPerCorrectAnswer}
         />
       )}
-    </main>
+    </>
   );
 }

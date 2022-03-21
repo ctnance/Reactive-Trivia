@@ -49,6 +49,7 @@ main {
   justify-content: center;
   align-items: center;
   height: 100%;
+  padding: 1em;
 }
 
 .start-container {
@@ -61,7 +62,7 @@ main {
   align-items: center;
   text-align: center;
   min-width: 50%;
-  padding: 3em 4em;
+  padding: 2em;
 }
 
 .modal-wrapper {
@@ -158,6 +159,10 @@ ul {
   padding: 0;
 }
 
+li label {
+  margin-bottom: 3px;
+}
+
 .radio-list {
   display: flex;
   flex-flow: column;
@@ -173,13 +178,35 @@ legend {
 }
 
 input[type="number"] {
-  width: 75px;
+  width: 50px;
   font-size: 1em;
+  padding: 2px 8px;
+  text-align: center;
+  user-select: all;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
 }
 
 .selectable,
 input[type="radio"] {
   cursor: pointer;
+}
+
+select {
+  border: 1px solid var(--dark-blue);
+  border-radius: 0.5em;
+  background-color: white;
+  padding: 4px;
 }
 
 .trivia-container {
@@ -202,7 +229,7 @@ input[type="radio"] {
   align-items: center;
   box-shadow: 4px 4px 16px hsla(0, 0%, 0%, 0.5);
   width: 100%;
-  padding: 1.25em 2em;
+  padding: 1.25em 1em;
 }
 
 .trivia-timer {
@@ -224,7 +251,14 @@ input[type="radio"] {
 }
 
 .trivia-header .score-tracker {
-  width: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 60px;
+}
+
+.score-tracker .score {
+  font-weight: bold;
 }
 
 .trivia-card {

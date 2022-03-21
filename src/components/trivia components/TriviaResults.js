@@ -4,11 +4,6 @@ import TriviaHeader from "./TriviaHeader";
 export default function TriviaResults(props) {
   return (
     <div className="trivia-results">
-      <TriviaHeader
-        displayTimer={false}
-        displayScore={false}
-        exitTrivia={props.exitTrivia}
-      />
       <h2>Results: </h2>
       <p>Final Score: {props.score}</p>
       <p>Under construction</p>

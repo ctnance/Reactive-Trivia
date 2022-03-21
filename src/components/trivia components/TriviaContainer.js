@@ -8,6 +8,8 @@ export default function TriviaContainer(props) {
   const [triviaSessionData, setTriviaSessionData] = React.useState({
     score: 0,
     allQuestionsAnswered: false,
+    showTimer: true,
+    showScoreInHeader: true,
     triviaCards: [],
     timerData: {
       timerActive: false,
@@ -127,6 +129,8 @@ export default function TriviaContainer(props) {
           return {
             ...prevData,
             allQuestionsAnswered: true,
+            showTimer: false,
+            showScoreInHeader: false,
           };
         });
         return 0;
@@ -153,27 +157,27 @@ export default function TriviaContainer(props) {
 
   return (
     <div className="trivia-container">
-      {triviaSessionData.allQuestionsAnswered ? (
-        <TriviaResults
-          score={triviaSessionData.score}
-          exitTrivia={props.exitTrivia}
-        />
-      ) : (
-        <>
-          <TriviaHeader
-            displayTimer={true}
-            displayScore={true}
-            timerActive={triviaSessionData.timerData.timerActive}
-            timerShouldReset={triviaSessionData.timerData.timerShouldReset}
-            toggleTimerReset={toggleTimerReset}
-            timerEnded={timerEnded}
-            exitTrivia={props.exitTrivia}
-            secondsPerQuestion={props.secondsPerQuestion}
+      <TriviaHeader
+        displayTimer={triviaSessionData.showTimer}
+        displayScore={triviaSessionData.showScoreInHeader}
+        timerActive={triviaSessionData.timerData.timerActive}
+        timerShouldReset={triviaSessionData.timerData.timerShouldReset}
+        toggleTimerReset={toggleTimerReset}
+        timerEnded={timerEnded}
+        exitTrivia={props.exitTrivia}
+        secondsPerQuestion={props.secondsPerQuestion}
+        score={triviaSessionData.score}
+      />
+      <main>
+        {triviaSessionData.allQuestionsAnswered ? (
+          <TriviaResults
             score={triviaSessionData.score}
+            exitTrivia={props.exitTrivia}
           />
-          {triviaCards[currentCardIndex]}
-        </>
-      )}
+        ) : (
+          <>{triviaCards[currentCardIndex]}</>
+        )}
+      </main>
     </div>
   );
 }

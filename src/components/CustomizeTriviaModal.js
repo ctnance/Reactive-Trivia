@@ -10,6 +10,14 @@ export default function CustomizeTriviaModal(props) {
     );
   });
 
+  React.useEffect(() => {
+    // For iOS devices, use the number pad for inputs of type "number"
+    if (/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream) {
+      var inputs = document.querySelectorAll('input[type="number"]');
+      for (var i = inputs.length; i--; ) inputs[i].setAttribute("pattern", "\\d*");
+    }
+  }, []);
+
   return (
     <div
       className="modal-wrapper"
