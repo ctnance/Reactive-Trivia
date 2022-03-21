@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/Reactive-Trivia/static/css/main.57756709.css",
+    "main.js": "/Reactive-Trivia/static/js/main.4e8ada7f.js",
+    "index.html": "/Reactive-Trivia/index.html",
+    "main.57756709.css.map": "/Reactive-Trivia/static/css/main.57756709.css.map",
+    "main.4e8ada7f.js.map": "/Reactive-Trivia/static/js/main.4e8ada7f.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.57756709.css",
+    "static/js/main.4e8ada7f.js"
+  ]
+}
