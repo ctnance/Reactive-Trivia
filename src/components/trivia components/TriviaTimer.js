@@ -8,20 +8,20 @@ export default function TriviaTimer(props) {
   // Run when active status or secondsLeft value changes
   React.useEffect(() => {
     let timerId = null;
-
-    if (!timerInitialized) {
-      initializeTimer();
-    }
-
     if (props.timerShouldReset) {
       resetTimer();
-    } else if (props.timerActive) {
-      if (secondsLeft > 0 || minutesLeft > 0) {
+    }
+
+    if (props.timerActive) {
+      if (!timerInitialized) {
+        initializeTimer();
+      } else if (secondsLeft > 0 || minutesLeft > 0) {
         timerId = setInterval(() => {
           countDown();
         }, 1000);
       } else {
         props.timerEnded();
+        setTimerInitialized(false);
       }
     }
     return () => clearInterval(timerId);

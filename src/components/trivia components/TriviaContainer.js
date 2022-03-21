@@ -77,6 +77,19 @@ export default function TriviaContainer(props) {
     });
   }
 
+  function setTimerData(nowActive, shouldReset, didEnd) {
+    setTriviaSessionData((prevData) => {
+      return {
+        ...prevData,
+        timerData: {
+          timerActive: nowActive,
+          timerShouldReset: shouldReset,
+          timerEnded: didEnd,
+        },
+      };
+    });
+  }
+
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   // TRIVIA CARD FUNCTIONS
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -136,8 +149,8 @@ export default function TriviaContainer(props) {
         return 0;
       }
     });
-    toggleTimerReset();
-    toggleTimerActive();
+    // Configure timer data to be active, reset but not set as ended
+    setTimerData(true, true, false);
   }
 
   let triviaCards = triviaSessionData.triviaCards.map((triviaCard) => {
