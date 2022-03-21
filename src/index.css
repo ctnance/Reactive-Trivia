@@ -27,6 +27,7 @@ body {
   background-image: url(./images/bg-image.png);
   background-color: var(--medium-blue);
   margin: 0;
+  overflow-y: hidden;
 }
 
 button {
@@ -71,18 +72,22 @@ main {
   width: 100vw;
   height: 100vh;
   z-index: 100;
+  overflow-y: initial !important;
 }
 
 .modal {
   background-color: white;
   position: relative;
-  top: 10%;
+  top: 6%;
   left: 50%;
   z-index: 200;
   transform: translateX(-50%);
   border-radius: 0.5em;
   padding: 2em;
   width: 80%;
+  max-height: 88vh;
+  overflow-y: auto;
+  margin-bottom: 3em;
 }
 
 .modal-title {
@@ -120,6 +125,61 @@ main {
 
 .description {
   margin-bottom: 2em;
+}
+
+.customization-options {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 2em;
+}
+
+.customization-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 2em;
+}
+
+.customization-item > label {
+  font-weight: bold;
+}
+
+form {
+  max-width: 350px;
+  margin: 0 auto;
+}
+
+ul {
+  display: flex;
+  justify-content: center;
+  list-style: none;
+  padding: 0;
+}
+
+.radio-list {
+  display: flex;
+  flex-flow: column;
+  align-items: flex-start;
+}
+
+fieldset {
+  border: none;
+}
+
+legend {
+  display: none;
+}
+
+input[type="number"] {
+  width: 75px;
+  font-size: 1em;
+}
+
+.selectable,
+input[type="radio"] {
+  cursor: pointer;
 }
 
 .trivia-container {

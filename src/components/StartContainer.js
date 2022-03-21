@@ -22,6 +22,14 @@ export default function StartContainer(props) {
       {showModal && (
         <CustomizeTriviaModal
           toggleSelf={toggleModal}
+          secondsPerQuestion={props.secondsPerQuestion}
+          numOfQuestions={props.numOfQuestions}
+          categoryId={props.categoryId}
+          difficulty={props.difficulty}
+          quizType={props.quizType}
+          triviaConstraints={props.triviaConstraints}
+          handleFormChange={props.handleFormChange}
+          handleFormSubmit={props.handleFormSubmit}
           startTrivia={props.startTrivia}
         />
       )}
