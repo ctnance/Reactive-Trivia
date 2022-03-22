@@ -7,6 +7,7 @@ import TriviaResults from "./TriviaResults";
 export default function TriviaContainer(props) {
   const [triviaSessionData, setTriviaSessionData] = React.useState({
     score: 0,
+    questionsLeft: 0,
     allQuestionsAnswered: false,
     showTimer: true,
     showScoreInHeader: true,
@@ -20,6 +21,7 @@ export default function TriviaContainer(props) {
   const [currentCardIndex, setCurrentCardIndex] = React.useState(0);
 
   React.useEffect(() => {
+    // If any trivia data comes through, initialize trivia session
     if (props.triviaData.length) {
       setTriviaSessionData(initializeTriviaSession());
     }
@@ -28,6 +30,7 @@ export default function TriviaContainer(props) {
   function initializeTriviaSession() {
     let obj = {
       ...triviaSessionData,
+      questionsLeft: props.triviaData.length,
       triviaCards: generateTriviaCards(),
       timerData: {
         ...triviaSessionData.timerData,
@@ -108,16 +111,44 @@ export default function TriviaContainer(props) {
       id: id,
       triviaData: triviaItem,
       questionNum: index + 1,
+      selectedAnswer: "",
       getNextTriviaCard: getNextTriviaCard,
       isLastCard: isLastCard,
     };
   }
 
+  function setAnswerForCurrentCard(selectedAnswer) {
+    let updatedCards = [];
+    triviaSessionData.triviaCards.forEach((card, index) => {
+      updatedCards.push(
+        index === currentCardIndex
+          ? {
+              ...card,
+              selectedAnswer: selectedAnswer,
+            }
+          : card
+      );
+    });
+    return updatedCards;
+  }
+
   function submitAnswer(selectedAnswer) {
+    console.log("QUESTIONS LEFT: " + triviaSessionData.questionsLeft);
+
     // Toggle timer off if active
     if (triviaSessionData.timerData.timerActive) {
       toggleTimerActive();
     }
+
+    // Update remaining questions
+    setTriviaSessionData((prevData) => {
+      return {
+        ...prevData,
+        questionsLeft: prevData.questionsLeft - 1,
+        triviaCards: setAnswerForCurrentCard(selectedAnswer),
+      };
+    });
+
     // Handle case if selected answer is correct
     if (props.triviaData[currentCardIndex].correct_answer === selectedAnswer) {
       setTriviaSessionData((prevData) => {
@@ -185,6 +216,8 @@ export default function TriviaContainer(props) {
         {triviaSessionData.allQuestionsAnswered ? (
           <TriviaResults
             score={triviaSessionData.score}
+            triviaData={props.triviaData}
+            cardData={triviaSessionData.triviaCards}
             exitTrivia={props.exitTrivia}
           />
         ) : (

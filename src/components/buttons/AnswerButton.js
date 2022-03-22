@@ -4,7 +4,7 @@ export default function Button(props) {
   return (
     <div
       style={props.selectedStyles}
-      className={props.isSelected ? "answer-btn selected" : "answer-btn"}
+      className={props.isSelected ? "answer-option selected" : "answer-option"}
       onClick={props.selectAnswer}
     >
       {props.answerText}
