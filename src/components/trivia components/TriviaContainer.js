@@ -21,6 +21,7 @@ export default function TriviaContainer(props) {
   const [currentCardIndex, setCurrentCardIndex] = React.useState(0);
 
   React.useEffect(() => {
+    console.log(props);
     // If any trivia data comes through, initialize trivia session
     if (props.triviaData.length) {
       setTriviaSessionData(initializeTriviaSession());

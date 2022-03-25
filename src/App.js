@@ -1,5 +1,6 @@
 import React from "react";
-import testData from "./testData";
+import DataFetcher from "./components/DataFetcher";
+import MessageContainer from "./components/MessageContainer";
 import StartContainer from "./components/StartContainer";
 import TriviaContainer from "./components/trivia components/TriviaContainer";
 
@@ -7,8 +8,7 @@ import TriviaContainer from "./components/trivia components/TriviaContainer";
 // ^ URL for trivia categories
 export default function App() {
   const [triviaActive, setTriviaActive] = React.useState(false);
-  const [triviaData, setTriviaData] = React.useState([]);
-  let [triviaConstraints, setTriviaConstraints] = React.useState({
+  const [triviaConstraints, setTriviaConstraints] = React.useState({
     maxQuestions: 50,
     maxSecondsPerQuestion: 120,
     categories: [
@@ -30,36 +30,7 @@ export default function App() {
 
   // Run effect when triviaActive is toggled; fetch data if true/active
   React.useEffect(() => {
-    if (triviaActive) {
-      async function getTriviaData() {
-        let response = await fetch(
-          `https://opentdb.com/api.php?amount=${triviaConfigData.numOfQuestions}&category=${triviaConfigData.categoryId}&difficulty=${triviaConfigData.difficulty}&type=${triviaConfigData.quizType}&encode=base64`
-        );
-        let data = await response.json();
-        if (data.response_code === 0) {
-          const triviaData = data.results.map((triviaItem) => {
-            return {
-              category: window
-                .atob(triviaItem.category)
-                .replace(/Entertainment: |Science: /, ""),
-              correct_answer: window.atob(triviaItem.correct_answer),
-              difficulty: window.atob(triviaItem.difficulty),
-              incorrect_answers: triviaItem.incorrect_answers.map((answer) =>
-                window.atob(answer)
-              ),
-              question: window.atob(triviaItem.question),
-              type: window.atob(triviaItem.type),
-            };
-          });
-          // setTriviaData(data.results); <- original base64 encoded data
-          console.log(triviaData);
-          setTriviaData(triviaData);
-        }
-      }
-      getTriviaData();
-      // GENERATE TEST DATA BELOW, ACTUAL API CALL FOR DATA ON LINE ABOVE
-      // setTriviaData(testData);
-    } else if (triviaConstraints.categories.length <= 1) {
+    if (triviaConstraints.categories.length <= 1) {
       async function getTriviaCategoryData() {
         let response = await fetch("https://opentdb.com/api_category.php");
         let data = await response.json();
@@ -67,7 +38,25 @@ export default function App() {
       }
       getTriviaCategoryData();
     }
-  }, [triviaActive, triviaConfigData.categoryId]);
+  }, []);
+
+  function decodeTriviaData(data) {
+    const triviaData = data.results.map((triviaItem) => {
+      return {
+        category: window
+          .atob(triviaItem.category)
+          .replace(/Entertainment: |Science: /, ""),
+        correct_answer: window.atob(triviaItem.correct_answer),
+        difficulty: window.atob(triviaItem.difficulty),
+        incorrect_answers: triviaItem.incorrect_answers.map((answer) =>
+          window.atob(answer)
+        ),
+        question: window.atob(triviaItem.question),
+        type: window.atob(triviaItem.type),
+      };
+    });
+    return triviaData;
+  }
 
   function parseTriviaCategories(data) {
     data.map((category) => {
@@ -133,7 +122,6 @@ export default function App() {
 
   function endTrivia() {
     setTriviaActive(false);
-    setTriviaData([]);
   }
 
   return (
@@ -153,13 +141,44 @@ export default function App() {
           />
         </main>
       ) : (
-        <TriviaContainer
-          triviaData={triviaData}
-          exitTrivia={endTrivia}
-          secondsPerQuestion={triviaConfigData.secondsPerQuestion}
-          pointsPerCorrectAnswer={triviaConfigData.pointsPerCorrectAnswer}
-        />
+        <DataFetcher
+          url={`https://opentdb.com/api.php?amount=${triviaConfigData.numOfQuestions}&category=${triviaConfigData.categoryId}&difficulty=${triviaConfigData.difficulty}&type=${triviaConfigData.quizType}&encode=base64`}
+        >
+          {({ data, loading, error }) => {
+            return loading ? (
+              <MessageContainer message="Loading..." />
+            ) : error ? (
+              <MessageContainer styles={{ color: "red" }} message={error.message} />
+            ) : (
+              <TriviaContainer
+                triviaData={decodeTriviaData(data)}
+                exitTrivia={endTrivia}
+                secondsPerQuestion={triviaConfigData.secondsPerQuestion}
+                pointsPerCorrectAnswer={triviaConfigData.pointsPerCorrectAnswer}
+              />
+            );
+          }}
+        </DataFetcher>
       )}
     </>
   );
 }
+
+// loading ? (
+//   <LoadingContainer />
+// ) : (
+//   <TriviaContainer
+//     triviaData={decodeTriviaData(data)}
+//     exitTrivia={endTrivia}
+//     secondsPerQuestion={triviaConfigData.secondsPerQuestion}
+//     pointsPerCorrectAnswer={triviaConfigData.pointsPerCorrectAnswer}
+//   />
+// )
+
+/* <TriviaContainer
+  triviaData={data.results}
+  // triviaData={triviaData}
+  exitTrivia={endTrivia}
+  secondsPerQuestion={triviaConfigData.secondsPerQuestion}
+  pointsPerCorrectAnswer={triviaConfigData.pointsPerCorrectAnswer}
+/> */

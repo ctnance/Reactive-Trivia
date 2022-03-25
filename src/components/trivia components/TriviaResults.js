@@ -8,7 +8,7 @@ export default function TriviaResults(props) {
   let resultElements = props.triviaData.map((triviaItem, index) => {
     return (
       <ResultCard
-        id={nanoid()}
+        key={nanoid()}
         questionNum={props.cardData[index].questionNum}
         question={triviaItem.question}
         difficulty={props.triviaData[index].difficulty}

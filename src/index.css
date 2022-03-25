@@ -212,6 +212,20 @@ select {
   padding: 4px;
 }
 
+.message-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--white);
+  box-shadow: 4px 4px 16px hsla(0, 0%, 0%, 0.5);
+  border-radius: 1em;
+  width: 100%;
+  text-align: center;
+  max-width: 400px;
+  padding: 1em 2em;
+}
+
 .trivia-container {
   width: 100%;
   height: 100%;
