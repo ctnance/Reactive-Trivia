@@ -21,7 +21,7 @@ export default function App() {
   });
   const [triviaConfigData, setTriviaConfigData] = React.useState({
     pointsPerCorrectAnswer: 100,
-    secondsPerQuestion: 10,
+    secondsPerQuestion: 2,
     numOfQuestions: 10,
     categoryId: 0,
     difficulty: "easy",
@@ -88,9 +88,10 @@ export default function App() {
   function handleFormChange(e) {
     const { type, name, value, checked } = e.target;
     let finalValue = value;
+    // Limit all number inputs to either the minimum value of 1 or the given max value for that constraint
     if (type === "number") {
-      if (value < 1) {
-        finalValue = 1;
+      if (value < 0) {
+        finalValue = 0;
       } else if (
         name === "numOfQuestions" &&
         value > triviaConstraints.maxQuestions
@@ -163,22 +164,3 @@ export default function App() {
     </>
   );
 }
-
-// loading ? (
-//   <LoadingContainer />
-// ) : (
-//   <TriviaContainer
-//     triviaData={decodeTriviaData(data)}
-//     exitTrivia={endTrivia}
-//     secondsPerQuestion={triviaConfigData.secondsPerQuestion}
-//     pointsPerCorrectAnswer={triviaConfigData.pointsPerCorrectAnswer}
-//   />
-// )
-
-/* <TriviaContainer
-  triviaData={data.results}
-  // triviaData={triviaData}
-  exitTrivia={endTrivia}
-  secondsPerQuestion={triviaConfigData.secondsPerQuestion}
-  pointsPerCorrectAnswer={triviaConfigData.pointsPerCorrectAnswer}
-/> */

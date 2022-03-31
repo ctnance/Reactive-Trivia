@@ -386,7 +386,7 @@ select {
 
 .result-card .question-category,
 .result-card .question-difficulty {
-  margin: 0.5em 0;
+  margin: 0.75em 0 0.5em;
 }
 
 .answers-container {

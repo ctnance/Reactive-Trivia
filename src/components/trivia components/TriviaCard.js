@@ -11,25 +11,19 @@ export default function TriviaCard(props) {
   });
   let [answerBtns, setAnswerBtns] = React.useState(createButtons());
 
+  // if Timer ends, submit answer to prevent input after time up
   React.useEffect(() => {
     if (props.timeUp) {
       handleSubmit();
     }
   }, [props.timeUp]);
+
   function createButtons() {
     let buttons = [];
-    let answers = shuffleAnswers([
-      props.triviaData.correct_answer,
-      ...props.triviaData.incorrect_answers,
-    ]);
-    for (let i = 0; i < answers.length; i++) {
-      buttons.push(createButton(answers[i]));
+    for (let i = 0; i < props.answers.length; i++) {
+      buttons.push(createButton(props.answers[i]));
     }
     return buttons;
-  }
-
-  function shuffleAnswers(answers) {
-    return answers.sort(() => Math.random() - 0.5);
   }
 
   function createButton(text) {

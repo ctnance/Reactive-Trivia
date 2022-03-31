@@ -8,13 +8,12 @@ export default function TriviaHeader(props) {
     <header className="trivia-header">
       <ExitTriviaButton exitTrivia={props.exitTrivia} />
       {props.displayTimer && (
-        <TriviaTimer
-          timerActive={props.timerActive}
-          secondsPerQuestion={props.secondsPerQuestion}
-          toggleTimerReset={props.toggleTimerReset}
-          timerEnded={props.timerEnded}
-          timerShouldReset={props.timerShouldReset}
-        />
+        <div className="trivia-timer">
+          <h2>Timer: </h2>
+          <span>
+            {props.minutesLeft}:{("0" + props.secondsLeft).slice(-2)}
+          </span>
+        </div>
       )}
       {props.displayScore && <ScoreTracker score={props.score} />}
     </header>

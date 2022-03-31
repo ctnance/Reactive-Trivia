@@ -15,10 +15,7 @@ export default function TriviaResults(props) {
         category={props.triviaData[index].category}
         selectedAnswer={props.cardData[index].selectedAnswer}
         correct_answer={props.triviaData[index].correct_answer}
-        answers={[
-          props.triviaData[index].correct_answer,
-          ...props.triviaData[index].incorrect_answers,
-        ]}
+        answers={props.cardData[index].answers}
       />
     );
   });
