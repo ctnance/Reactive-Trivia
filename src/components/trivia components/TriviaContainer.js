@@ -17,7 +17,7 @@ export default function TriviaContainer(props) {
 
   const [currentCardIndex, setCurrentCardIndex] = React.useState(0);
   const [
-    secondsElapsed,
+    secondsElapsed, // TODO: Use Seconds Elapsed to show how many seconds it took use to answer each question in results
     secondsLeft,
     minutesLeft,
     timerEnded,
@@ -27,7 +27,6 @@ export default function TriviaContainer(props) {
   ] = TriviaTimer(props.secondsPerQuestion);
 
   React.useEffect(() => {
-    console.log(props);
     // If any trivia data comes through, initialize trivia session
     if (props.triviaData.length) {
       setTriviaSessionData(initializeTriviaSession());
@@ -90,8 +89,6 @@ export default function TriviaContainer(props) {
   }
 
   function submitAnswer(selectedAnswer) {
-    console.log("QUESTIONS LEFT: " + triviaSessionData.questionsLeft);
-
     // TODO: Pause timer to ensure it is inactive
     pauseTimer();
 

@@ -110,7 +110,8 @@ main {
 }
 
 .modal-close-btn:active {
-  box-shadow: none;
+  border: none;
+  box-shadow: none !important;
   margin-top: 1px;
 }
 

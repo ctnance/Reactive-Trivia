@@ -1,6 +1,6 @@
 {
-  "short_name": "Trivia In React",
-  "name": "Trivia In React",
+  "short_name": "Reactive Trivia",
+  "name": "Reactive Trivia",
   "icons": [],
   "start_url": ".",
   "display": "standalone",
